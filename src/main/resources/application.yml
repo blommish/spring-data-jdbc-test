@@ -1,0 +1,12 @@
+server:
+  port: 8080
+  shutdown: graceful
+  servlet:
+    context-path: /
+
+spring:
+  main:
+    banner-mode: "off"
+  data.jdbc.repositories.enabled: true
+  flyway:
+    enabled: true

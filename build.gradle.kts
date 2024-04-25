@@ -5,6 +5,8 @@ plugins {
 
     kotlin("jvm") version "1.9.10"
     kotlin("plugin.spring") version "1.9.10"
+
+    id("com.diffplug.spotless") version "6.25.0"
 }
 
 group = "no.blommish.spring-data-error"
@@ -19,6 +21,14 @@ kotlin {
     }
 }
 
+apply(plugin = "com.diffplug.spotless")
+
+spotless {
+    kotlin {
+        ktlint("1.2.1")
+    }
+}
+
 repositories {
     mavenCentral()
 }
@@ -29,6 +39,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
+
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
     implementation("org.flywaydb:flyway-core")
     implementation("org.postgresql:postgresql")
