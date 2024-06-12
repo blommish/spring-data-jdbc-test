@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.context.ApplicationContextInitializer
 import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.data.convert.CustomConversions
+import org.springframework.data.relational.core.dialect.Dialect
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.junit.jupiter.SpringExtension
@@ -33,11 +34,15 @@ class LoggerInitializer : ApplicationContextInitializer<ConfigurableApplicationC
 class BarRepositoryTest {
     @Autowired
     lateinit var barRepository: BarRepository
-
+    @Autowired
+    lateinit var dialect : Dialect
     @Test
     fun `saving and getting db data`() {
         val bar = barRepository.save(Bar(data = MyJson("asd")))
-        barRepository.findByIdOrNull(bar.id)
+        val reloaded = barRepository.findByIdOrNull(bar.id)
+
+        assertThat(reloaded).isEqualTo(bar)
+
 
         assertThat(listAppender.list).isEmpty()
     }

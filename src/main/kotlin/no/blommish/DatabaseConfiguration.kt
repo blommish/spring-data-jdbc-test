@@ -5,12 +5,12 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import org.postgresql.util.PGobject
 import org.springframework.boot.SpringBootConfiguration
+import org.springframework.context.ApplicationContext
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.convert.converter.Converter
 import org.springframework.data.convert.ReadingConverter
 import org.springframework.data.convert.WritingConverter
-import org.springframework.data.jdbc.core.convert.JdbcCustomConversions
 import org.springframework.data.jdbc.repository.config.AbstractJdbcConfiguration
 import org.springframework.data.jdbc.repository.config.EnableJdbcAuditing
 import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories
@@ -24,13 +24,12 @@ val objectMapper =
 @EnableJdbcRepositories("no.blommish")
 @SpringBootConfiguration // Appconfig
 class DatabaseConfiguration : AbstractJdbcConfiguration() {
+    
     @Bean
-    override fun jdbcCustomConversions(): JdbcCustomConversions {
-        return JdbcCustomConversions(
-            listOf(
-                PGobjectToMyJsonConverter(),
-                MyJsonToPGobjectConverter(),
-            ),
+    override fun userConverters(): List<*> {
+        return listOf(
+            PGobjectToMyJsonConverter(),
+            MyJsonToPGobjectConverter()
         )
     }
 
